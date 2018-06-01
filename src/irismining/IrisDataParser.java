@@ -9,6 +9,8 @@ public class IrisDataParser {
     private List<Iris> testList = new ArrayList<>();
 
     public static void main(String[] args) {
+    	long startTime = System.nanoTime();
+    	
         IrisDataParser dataParser = new IrisDataParser();
         dataParser.parse();
         IrisKNN kNN = new IrisKNN(dataParser.trainList, dataParser.testList, 3);
@@ -28,7 +30,12 @@ public class IrisDataParser {
         System.out.println("\n \n");
         System.out.println("==========================RESULTS===========================");
         System.out.println("% of right types: " + (countRight*100/dataParser.testList.size())
-                            + "% " + "% of wrong types: " + (countWrong*100/dataParser.testList.size()) + "%");
+                            + "% , " + "% of wrong types: " + (100-countRight*100/dataParser.testList.size()) + "%");
+        long endTime = System.nanoTime();
+
+        long duration = (endTime - startTime)/1000000;
+        System.out.println("time :" +duration +" milliseconds");
+    
     }
 
     private void parse() {
@@ -82,43 +89,15 @@ public class IrisDataParser {
     }
 
     private void normalize() {
-        double minSL = 100, maxSL = -1 , minSW = 100, maxSW= -1, minPL = 100, maxPL= -1, minPW = 100, maxPW = -1;
-
-        for (Iris ir: trainList) {
-            minSL = minSL > ir.getSepalLength() ? ir.getSepalLength() : minSL;
-            maxSL = maxSL < ir.getSepalLength() ? ir.getSepalLength() : maxSL;
-
-            minSW = minSW > ir.getSepalWidth() ? ir.getSepalWidth() : minSW;
-            maxSW = maxSW < ir.getSepalWidth() ? ir.getSepalWidth() : maxSW;
-
-            minPL = minPL > ir.getPetalLength() ? ir.getPetalLength() : minPL;
-            maxPL = maxPL < ir.getPetalLength() ? ir.getPetalLength() : maxPL;
-
-            minPW = minPW > ir.getPetalWidth() ? ir.getPetalWidth() : minPW;
-            maxPW = maxPW < ir.getPetalWidth() ? ir.getPetalWidth() : maxPW;
-        }
-
-        for (Iris ir: testList) {
-            minSL = minSL > ir.getSepalLength() ? ir.getSepalLength() : minSL;
-            maxSL = maxSL < ir.getSepalLength() ? ir.getSepalLength() : maxSL;
-
-            minSW = minSW > ir.getSepalWidth() ? ir.getSepalWidth() : minSW;
-            maxSW = maxSW < ir.getSepalWidth() ? ir.getSepalWidth() : maxSW;
-
-            minPL = minPL > ir.getPetalLength() ? ir.getPetalLength() : minPL;
-            maxPL = maxPL < ir.getPetalLength() ? ir.getPetalLength() : maxPL;
-
-            minPW = minPW > ir.getPetalWidth() ? ir.getPetalWidth() : minPW;
-            maxPW = maxPW < ir.getPetalWidth() ? ir.getPetalWidth() : maxPW;
-        }
-        
+        Iris irisMax1 = getMax(trainList);
+        Iris irisMax2 = getMax(testList);
        
         for (Iris ir: trainList) {
-            ir.normalize(minSL, maxSL, minSW, maxSW, minPL, maxPL, minPW, maxPW);
+            ir.normalize(irisMax1.getSepalLength(),irisMax1.getSepalWidth(),irisMax1.getPetalLength(),irisMax1.getSepalWidth());
         }
 
         for (Iris ir: testList) {
-            ir.normalize(minSL, maxSL, minSW, maxSW, minPL, maxPL, minPW, maxPW);
+        	ir.normalize(irisMax2.getSepalLength(),irisMax2.getSepalWidth(),irisMax2.getPetalLength(),irisMax2.getSepalWidth());
         }
 
         System.out.println("\n \n");
@@ -145,4 +124,28 @@ public class IrisDataParser {
     public List<Iris> getTestList() {
         return testList;
     }
+
+    public Iris getMax(List<Iris> list) {
+    	Iris maxIris = new Iris(0,0,0,0,"");  	
+    	for(int i=0;i<list.size();i++) {
+    		if(maxIris.getPetalLength()<list.get(i).getPetalLength()) {
+    			maxIris.setPetalLength(list.get(i).getPetalLength());
+    		}
+    		if(maxIris.getPetalWidth()<list.get(i).getPetalWidth()) {
+    			maxIris.setPetalWidth(list.get(i).getPetalWidth());
+    		}
+    		
+    		if(maxIris.getSepalLength()<list.get(i).getSepalLength()) {
+    			maxIris.setSepalLength(list.get(i).getSepalLength());
+    		}
+    		
+    		if(maxIris.getSepalWidth()<list.get(i).getSepalWidth()) {
+    			maxIris.setSepalWidth(list.get(i).getSepalWidth());
+    		}
+    	}
+    	
+    	return maxIris;
+    }
+    
+    
 }

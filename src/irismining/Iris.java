@@ -28,7 +28,11 @@ class Iris {
         type = t;
     }
 
-    // Input data getters
+    public Iris() {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Input data getters
     public double getSepalLength() {
         return sepalLength;
     }
@@ -59,8 +63,23 @@ class Iris {
         return normPetalWidth;
     }
 
+    public void setSepalLength(double sepalLength) {
+		this.sepalLength = sepalLength;
+	}
 
-    // Getters for result data
+	public void setSepalWidth(double sepalWidth) {
+		this.sepalWidth = sepalWidth;
+	}
+
+	public void setPetalLength(double petalLength) {
+		this.petalLength = petalLength;
+	}
+
+	public void setPetalWidth(double petalWidth) {
+		this.petalWidth = petalWidth;
+	}
+
+	// Getters for result data
     public String getClassificationType() {
         return classificationType;
     }
@@ -73,13 +92,13 @@ class Iris {
         this.classificationType = classificationType;
     }
 
-    // normalize method
-    public void normalize(double minSL, double maxSL, double minSW, double maxSW, double minPL, double maxPL, double minPW, double maxPW) {
-        normSepalLength = (double) Math.round((sepalLength - minSL) / (maxSL - minSL) * 1000) / 1000;
-        normSepalWidth = (double) Math.round((sepalWidth - minSW) / (maxSW - minSW) * 1000) / 1000;
-        normPetalLength = (double) Math.round((petalLength - minPL) / (maxPL - minPL) * 1000) / 1000;
-        normPetalWidth = (double) Math.round((petalWidth - minPW) / (maxPW - minPW) * 1000) / 1000;
+    public void normalize( double maxSL,  double maxSW, double maxPL, double maxPW) {
+        normSepalLength = (double) (sepalLength/maxSL);
+        normSepalWidth = (double) (sepalWidth/maxSW) ;
+        normPetalLength = (double)(petalLength/maxPL);
+        normPetalWidth = (double) (petalWidth/maxPW);
     }
+    
 
     // testing result
     public void testClassification() {
@@ -88,9 +107,7 @@ class Iris {
 
     @Override
     public String toString() {
-        return "sepal length: " + sepalLength + " | sepal width: " + sepalWidth
-                    + " | petal length: " + petalLength + " | petal width: " + petalWidth
-                        + " | type: " + type + " | Classification Type: " + classificationType + " | Classification is "
+        return "  type: " + type + " | Classification Type: " + classificationType + " | Classification is "
                             + (isClassificationRight ? "right" : "wrong");
     }
     
