@@ -31,7 +31,7 @@ public class IrisDataParser {
         // random numbers [0, 149]
         do {
             idxTestSet.add(random.nextInt(149));
-        } while (idxTestSet.size() != 50);
+        } while (idxTestSet.size() != 45);
 
         // parse data
         try (BufferedReader bReader = new BufferedReader(new InputStreamReader(new FileInputStream("./data/iris/data.txt")))) {
@@ -52,11 +52,17 @@ public class IrisDataParser {
             }
 
             System.out.println("==========================INPUT TRAIN DATA===========================");
-            for (Iris ir: trainList) {
+            int i=0;
+            for (Iris ir: trainList) {	
+            	i++;
+            	System.out.print("sample "+i+"> ");
                 System.out.println(ir);
             }
             System.out.println("==========================INPUT TEST DATA===========================");
+            i =0 ;
             for (Iris ir: testList) {
+            	i++;
+            	System.out.print("sample "+i+"> ");
                 System.out.println(ir);
             }
 
@@ -98,7 +104,8 @@ public class IrisDataParser {
             minPW = minPW > ir.getPetalWidth() ? ir.getPetalWidth() : minPW;
             maxPW = maxPW < ir.getPetalWidth() ? ir.getPetalWidth() : maxPW;
         }
-
+        
+       
         for (Iris ir: trainList) {
             ir.normalize(minSL, maxSL, minSW, maxSW, minPL, maxPL, minPW, maxPW);
         }
@@ -108,11 +115,17 @@ public class IrisDataParser {
         }
 
         System.out.println("==========================NORM TRAIN DATA===========================");
+        int i =0;
         for (Iris ir: trainList) {
+        	i++;
+        	System.out.print("sample "+i+"> ");
             System.out.println(ir.normToString());
         }
         System.out.println("==========================NORM TEST DATA===========================");
+        i =0;
         for (Iris ir: testList) {
+        	i++;
+        	System.out.print("sample "+i+"> ");
             System.out.println(ir.normToString());
         }
     }
