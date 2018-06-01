@@ -13,12 +13,19 @@ public class IrisDataParser {
         dataParser.parse();
         IrisKNN kNN = new IrisKNN(dataParser.trainList, dataParser.testList, 3);
         kNN.classify();
+        
+        System.out.println("\n \n");
         System.out.println("==========================TEST RESULTS===========================");
-        int countWrong = 0, countRight = 0;
+        int countWrong = 0, countRight = 0,j=0;
+        
         for (Iris ir: dataParser.testList) {
             int i = ir.isClassificationRight() ? ++countRight : ++countWrong;
+            j++;
+        	System.out.print("sample "+j+"> ");
             System.out.println(ir);
         }
+        
+        System.out.println("\n \n");
         System.out.println("==========================RESULTS===========================");
         System.out.println("% of right types: " + (countRight*100/dataParser.testList.size())
                             + "% " + "% of wrong types: " + (countWrong*100/dataParser.testList.size()) + "%");
@@ -56,14 +63,14 @@ public class IrisDataParser {
             for (Iris ir: trainList) {	
             	i++;
             	System.out.print("sample "+i+"> ");
-                System.out.println(ir);
+                System.out.println(ir.show());
             }
             System.out.println("==========================INPUT TEST DATA===========================");
             i =0 ;
             for (Iris ir: testList) {
             	i++;
             	System.out.print("sample "+i+"> ");
-                System.out.println(ir);
+                System.out.println(ir.show());
             }
 
             // normalize data
@@ -114,6 +121,7 @@ public class IrisDataParser {
             ir.normalize(minSL, maxSL, minSW, maxSW, minPL, maxPL, minPW, maxPW);
         }
 
+        System.out.println("\n \n");
         System.out.println("==========================NORM TRAIN DATA===========================");
         int i =0;
         for (Iris ir: trainList) {

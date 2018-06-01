@@ -93,10 +93,17 @@ class Iris {
                         + " | type: " + type + " | Classification Type: " + classificationType + " | Classification is "
                             + (isClassificationRight ? "right" : "wrong");
     }
+    
+    public String show() {
+    	return "sepal length: " + sepalLength + " | sepal width: " + sepalWidth
+                + " | petal length: " + petalLength + " | petal width: " + petalWidth
+                    + " | type: " + type ;
+    	
+    }
 
     public String normToString() {
         return String.format("sepal length: " + "%.2f | sepal width: " + "%.2f | petal length: " + "%.2f | petal width: "
-                        + "%.2f | type: " + "%s | Classification Type: " + "%s | Classification: " + "%s"
-                , normSepalLength, normSepalWidth, normPetalLength, normPetalWidth, type, classificationType, isClassificationRight);
+                        + "%.2f | type: " + "%s "
+                , normSepalLength, normSepalWidth, normPetalLength, normPetalWidth, type);
     }
 }
